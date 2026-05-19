@@ -48,15 +48,24 @@ def configure_logging() -> None:
     )
 
     if SETTINGS.log_file is not None:
-        SETTINGS.log_file.parent.mkdir(parents=True, exist_ok=True)
-        logger.add(
-            SETTINGS.log_file,
-            level=SETTINGS.log_level,
-            rotation="2 MB",
-            retention=5,
-            encoding="utf-8",
-            format=_FILE_FORMAT,
-        )
+        # The file sink is best-effort. If the target dir isn't writable
+        # (e.g. LOG_FILE set on Render but no persistent disk attached),
+        # warn to stderr and keep going — never crash the boot over logs.
+        try:
+            SETTINGS.log_file.parent.mkdir(parents=True, exist_ok=True)
+            logger.add(
+                SETTINGS.log_file,
+                level=SETTINGS.log_level,
+                rotation="2 MB",
+                retention=5,
+                encoding="utf-8",
+                format=_FILE_FORMAT,
+            )
+        except OSError as exc:
+            logger.warning(
+                "File log sink disabled — could not prepare {}: {}",
+                SETTINGS.log_file, exc,
+            )
 
     _configured = True
 
