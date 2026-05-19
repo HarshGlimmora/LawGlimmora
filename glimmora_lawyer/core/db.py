@@ -102,7 +102,14 @@ def _ensure_dirs() -> None:
     """Create every directory the backend writes into. Idempotent and
     safe to call on every boot. On Render with a persistent disk mounted
     at /var/data, DATA_ROOT + CASES_ROOT both land on the disk and these
-    mkdirs are no-ops after the first deploy."""
+    mkdirs are no-ops after the first deploy.
+
+    Best-effort: an unwritable target (e.g. /var/data when no disk is
+    actually attached) is logged as a warning rather than crashing the
+    app. Postgres-backed deploys can still serve auth/profile/case
+    endpoints — only file-touching endpoints (evidence upload, research
+    upload, report export) will fail at request time, with a clear
+    error envelope from the persistence service."""
     for d in (
         SETTINGS.data_root,
         SETTINGS.cases_root,
@@ -111,7 +118,14 @@ def _ensure_dirs() -> None:
         SETTINGS.seeds_dir,
         SETTINGS.logs_dir,
     ):
-        d.mkdir(parents=True, exist_ok=True)
+        try:
+            d.mkdir(parents=True, exist_ok=True)
+        except OSError as exc:
+            log.warning(
+                "Could not prepare data dir {}: {} "
+                "(file-touching endpoints will fail until this is fixed)",
+                d, exc,
+            )
 
 
 def get_engine():
