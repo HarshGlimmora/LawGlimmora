@@ -37,6 +37,12 @@ services:
       sizeGB: 5
 
     envVars:
+      # Pin Python so transitive native deps (pydantic-core, PyMuPDF,
+      # bcrypt) resolve a pre-built wheel instead of triggering a Rust
+      # build that fails on Render's read-only build sandbox. The same
+      # value lives in glimmora_lawyer/.python-version as a fallback.
+      - key: PYTHON_VERSION
+        value: 3.11.10
       - key: APP_ENV
         value: production
       - key: APP_NAME
