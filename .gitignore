@@ -1,0 +1,74 @@
+# ──────────────────────────────────────────────────────────────────────
+#  Glimmora Lawyer — top-level .gitignore
+#  Covers backend (glimmora_lawyer/) + frontend/ + diagnostic scripts.
+#  Per-tree .gitignore files inside each subdir layer additional rules.
+# ──────────────────────────────────────────────────────────────────────
+
+# ── Secrets & credentials ───────────────────────────────────────────
+.env
+.env.*
+!.env.example
+!.env.local.example
+.secrets/
+*.pem
+*.key
+*.p12
+*.pfx
+service-account*.json
+gcp_sa*.json
+
+# Diagnostic script — contains an embedded GCP service-account key.
+# Never commit. Recreate locally from glimmora_lawyer/.env when needed.
+vertex_diag.py
+
+# ── Python ──────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+venv/
+env/
+*.egg-info/
+*.egg
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+
+# ── Node / Next.js ──────────────────────────────────────────────────
+node_modules/
+.next/
+out/
+.turbo/
+*.tsbuildinfo
+next-env.d.ts
+
+# ── Playwright ──────────────────────────────────────────────────────
+test-results/
+playwright-report/
+playwright-screenshots/
+
+# ── Backend runtime data (large, per-user, never source-controlled) ─
+glimmora_lawyer/data/
+glimmora_lawyer/cases/
+glimmora_lawyer/logs/
+
+# ── Logs ────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── OS / IDE ────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ── Misc ────────────────────────────────────────────────────────────
+.cache/
+tmp/

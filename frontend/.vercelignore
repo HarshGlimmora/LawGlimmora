@@ -1,0 +1,19 @@
+# Test artifacts
+e2e/
+playwright.config.ts
+playwright-screenshots/
+playwright-report/
+test-results/
+
+# Local build & cache
+.next/cache/
+*.tsbuildinfo
+
+# Local secrets
+.env.local
+.env.*.local
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/

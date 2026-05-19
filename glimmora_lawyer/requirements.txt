@@ -1,0 +1,15 @@
+SQLAlchemy==2.0.36
+psycopg[binary]==3.2.3        # PostgreSQL driver for production (Render Postgres)
+pydantic==2.9.2
+email-validator==2.2.0
+passlib[bcrypt]==1.7.4
+bcrypt==4.0.1
+python-dotenv==1.0.1
+loguru==0.7.2
+PyMuPDF==1.24.13
+google-genai==0.3.0
+reportlab==4.2.5
+fastapi==0.115.4
+uvicorn[standard]==0.32.0
+python-multipart==0.0.12
+itsdangerous==2.2.0

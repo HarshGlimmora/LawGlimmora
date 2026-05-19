@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Fonts: loaded via next/font in src/app/layout.tsx (Fraunces for display,
+ * IBM Plex Sans for body, IBM Plex Mono for code/eyebrow). Variables are
+ * exposed as --font-display / --font-body / --font-mono so Tailwind utilities
+ * can reference them without a runtime CSS import (better LCP, no FOUT).
+ */
+
+@layer base {
+  :root {
+    --background: theme(colors.parchment.DEFAULT);
+    --foreground: theme(colors.ink.DEFAULT);
+    --muted: theme(colors.ink.mute);
+    --border: theme(colors.rule.DEFAULT);
+    --border-soft: theme(colors.rule.soft);
+    --card: theme(colors.card);
+    --accent: theme(colors.accent.DEFAULT);
+    --ring: theme(colors.accent.DEFAULT);
+  }
+
+  html,
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-body), "IBM Plex Sans", "Helvetica Neue", Arial,
+      sans-serif;
+    font-feature-settings: "ss01", "cv02";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display), "Fraunces", "Cormorant Garamond", Georgia,
+      serif;
+    letter-spacing: -0.01em;
+  }
+
+  h1 {
+    font-size: clamp(1.85rem, 2.4vw, 2.4rem);
+    line-height: 1.1;
+    font-weight: 500;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    line-height: 1.25;
+    font-weight: 500;
+  }
+
+  h3 {
+    font-size: 1.05rem;
+    font-weight: 500;
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: theme(colors.accent.wash);
+    color: theme(colors.ink.DEFAULT);
+  }
+}
+
+@layer components {
+  .eyebrow {
+    @apply font-mono text-[0.66rem] uppercase tracking-[0.18em] text-ink-mute;
+  }
+
+  .surface {
+    @apply rounded-lg border border-rule bg-card;
+  }
+
+  .subtle-link {
+    @apply text-accent underline-offset-4 hover:underline;
+  }
+
+  .divider {
+    @apply my-6 border-t border-rule-soft;
+  }
+}
